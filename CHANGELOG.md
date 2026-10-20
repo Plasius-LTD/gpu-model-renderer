@@ -13,7 +13,7 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
   - (placeholder)
 
 - **Changed**
-  - (placeholder)
+  - Align renderer preparation with published core 0.5.0 to retain six additional validated material texture slots and their UV/sampler/resource contracts; producers and the bridge must share the same core module instance.
 
 - **Fixed**
   - (placeholder)

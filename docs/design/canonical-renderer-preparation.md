@@ -49,3 +49,38 @@ No unrelated dependencies are refreshed. No local/unpublished references are
 used. The lockfile records transitive resolution. Full verification commands and
 exit codes, Node/npm versions, commit, timestamps and publication evidence are
 recorded in the issue upon delivery.
+
+## Extended material adoption (gpu-model-renderer#28)
+
+[ADR 0007](../adrs/adr-0007-extended-material-core-alignment.md) adopts published
+core0.5.0 in place of0.4.6 and test-only renderer0.2.53 in place of0.2.51.
+The renderer update supplies released public core type alignment (fixing the
+observed TS2322 integration failure) and six texture channel mappings. Frozen
+resolution deduplicates to core0.5.0; other direct dependencies are unchanged.
+The bridge and producer must resolve the same0.5.0 instance/module format. Clones
+need explicit receiving-core reverification; retaining private verification is
+a security invariant. No source validation/brand workaround is introduced.
+
+The six additional canonical slots are retained by the existing generic bridge,
+with bounded factor metadata and full UV, transform, sampler, colour-space and
+verified image identity. Regression fixtures cover each slot and the combined
+published runtime -> bridge result, as well as invalid reference/usage/colour/
+sampler/hash/UV/transform data, clone rejection and explicit reverification,
+remote disable/rollback, cancellation and allocation failure. Existing numeric,
+geometry/rig/animation and published renderer controls remain required. New tests
+exercise the complete runtime -> bridge -> renderer six-channel/packed-atlas
+path and explicit refusal of authored unsupported UV/transform interpretations.
+Actual glTF admission remains glTF#14. Renderer#252 supplies the released UV0/
+identity-only contract; no physical rendering claim follows from metadata
+retention or CPU atlas checks. Existing canonical alpha/unlit gaps remain #237/#238.
+
+NFR checks for this targeted adoption use the table above: core validates new
+references before preparation (security); no diagnostics contain resources or
+provider data (privacy/observability); existing byte/deadline/cancellation gates
+and immutable shared image identity remain tested (reliability/performance);
+frozen installation, audits, source coverage, packed and registry-installed
+ESM/CJS/browser probes verify reproducibility and portability. Record actual
+commands, times and release results in #28. No UI, SEO, device rendering or ACA
+configuration changes apply. Remote flag disable and the previous compatible
+package/loader set remain the rollback route. Publish only via approved
+main/production cd.yml after exact-SHA CI and verify registry/provenance.
