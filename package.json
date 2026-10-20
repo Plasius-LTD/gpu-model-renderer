@@ -69,6 +69,8 @@
   "homepage": "https://github.com/Plasius-LTD/gpu-model-renderer#readme",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@plasius/gpu-model-runtime": "0.2.4",
+    "@plasius/gpu-renderer": "0.2.51",
     "@types/node": "^26.0.1",
     "@typescript-eslint/eslint-plugin": "^8.59.3",
     "@typescript-eslint/parser": "^8.59.3",
@@ -102,5 +104,8 @@
   },
   "engines": {
     "node": ">=24"
+  },
+  "dependencies": {
+    "@plasius/gpu-model-core": "0.4.6"
   }
 }

@@ -10,7 +10,8 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 ## [Unreleased]
 
 - **Added**
-  - (placeholder)
+  - Canonical renderer preparation API for verified buffers, bounds, material/texture slots, skinning and animation inputs, with remote rollout gating and bounded diagnostics.
+  - Published runtime-to-renderer integration fixtures and numeric fidelity/cancellation tests.
 
 - **Changed**
   - (placeholder)
