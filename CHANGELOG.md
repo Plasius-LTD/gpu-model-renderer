@@ -10,6 +10,20 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 ## [Unreleased]
 
 - **Added**
+  - (placeholder)
+
+- **Changed**
+  - (placeholder)
+
+- **Fixed**
+  - (placeholder)
+
+- **Security**
+  - (placeholder)
+
+## [0.2.0] - 2026-10-20
+
+- **Added**
   - Canonical renderer preparation API for verified buffers, bounds, material/texture slots, skinning and animation inputs, with remote rollout gating and bounded diagnostics.
   - Published runtime-to-renderer integration fixtures and numeric fidelity/cancellation tests.
 
@@ -474,7 +488,7 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 
 ---
 
-[Unreleased]: https://github.com/Plasius-LTD/gpu-model-renderer/compare/v0.1.6...HEAD
+[Unreleased]: https://github.com/Plasius-LTD/gpu-model-renderer/compare/v0.2.0...HEAD
 [1.0.0]: https://github.com/Plasius-LTD/schema/releases/tag/v1.0.0
 [1.0.13]: https://github.com/Plasius-LTD/schema/releases/tag/v1.0.13
 [1.0.17]: https://github.com/Plasius-LTD/schema/releases/tag/v1.0.17
@@ -516,3 +530,4 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 [0.1.4]: https://github.com/Plasius-LTD/gpu-model-renderer/releases/tag/v0.1.4
 [0.1.5]: https://github.com/Plasius-LTD/gpu-model-renderer/releases/tag/v0.1.5
 [0.1.6]: https://github.com/Plasius-LTD/gpu-model-renderer/releases/tag/v0.1.6
+[0.2.0]: https://github.com/Plasius-LTD/gpu-model-renderer/releases/tag/v0.2.0
