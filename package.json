@@ -70,7 +70,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@plasius/gpu-model-runtime": "0.2.4",
-    "@plasius/gpu-renderer": "0.2.51",
+    "@plasius/gpu-renderer": "0.2.53",
     "@types/node": "^26.0.1",
     "@typescript-eslint/eslint-plugin": "^8.59.3",
     "@typescript-eslint/parser": "^8.59.3",
@@ -106,6 +106,6 @@
     "node": ">=24"
   },
   "dependencies": {
-    "@plasius/gpu-model-core": "0.4.6"
+    "@plasius/gpu-model-core": "0.5.0"
   }
 }

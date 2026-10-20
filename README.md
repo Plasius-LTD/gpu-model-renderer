@@ -61,6 +61,35 @@ objects and structured clones fail closed; verify clones through
 versions/module instances consistent across adapters and bridge consumers.
 The deprecated `packageBootstrap` identity export remains compatible.
 
+This bridge requires the published `@plasius/gpu-model-core` **0.5.0** contract.
+Source adapters and the bridge must resolve the same core module instance and
+module format. An equal version in a separate install, worker, or ESM/CJS module
+instance does not share the private verification brand. Inspect
+`npm ls @plasius/gpu-model-core` when integrating; explicitly reverify transferred
+clones with the receiving core and its trusted resource-verification port. Do not
+cast a plain object to a verified document or disable the brand check.
+
+Preparation retains the additional `thickness`, `specular`, `specularColor`,
+`iridescence`, `iridescenceThickness`, and `anisotropy` bindings, including their
+samplers, selected UV sets, transforms, colour spaces, and verified encoded image
+resources. Extension factors remain bounded canonical metadata. The bridge
+preserves these contracts; the source adapter owns KHR admission, factors,
+defaults, channels, and export, while the renderer owns actual texture sampling.
+Missing references, mismatched slot usage, image identity, samplers, colour
+spaces, or absent UV sets must fail core verification before preparation.
+
+Use published renderer **0.2.53** or a compatible later release for the six
+additional channel mappings. Its canonical mapper accepts UV0 and identity
+transforms, and explicitly rejects unsupported UV sets or nonidentity transforms.
+The generic bridge retains the authored data so the host can choose an appropriate
+consumer; it never removes a transform or substitutes UV0 to evade a rejection.
+The owning renderer contract is tracked by
+[gpu-renderer #252](https://github.com/Plasius-LTD/gpu-renderer/issues/252).
+Retaining fields in prepared output does not establish physical rendering fidelity or
+[glTF #14](https://github.com/Plasius-LTD/gpu-model-gltf/issues/14) completion.
+Keep unsupported assets on the existing consumer path until the released
+renderer passes the real source-adapter compatibility fixtures.
+
 Optional `diagnostics` uses the core `GpuModelDiagnosticInput` contract. Core
 owns strict/tolerant/forensic evaluation and bounded repair/loss/evidence
 ledgers. Strict is the default. Tolerant reports describe repairs already
@@ -118,11 +147,13 @@ prove the full format conformance matrix in site Story #1160: the current
 published GLB canonical importer supports a narrower texture-free static
 profile. Actual format-adapter support must be verified separately.
 
-Dependencies added for this API: runtime core `0.4.6` (canonical validation and
-diagnostics); test-only runtime `0.2.4` and renderer `0.2.51` (published consumer
+Dependencies added for this API: runtime core `0.5.0` (canonical validation and
+diagnostics); test-only runtime `0.2.4` and renderer `0.2.53` (published consumer
 contract checks). No local package references or format SDKs are introduced.
 See [ADR 0006](docs/adrs/adr-0006-canonical-renderer-preparation.md) and the
 [design and NFR evidence](docs/design/canonical-renderer-preparation.md).
+The core adoption and module-instance constraints are specified by
+[ADR 0007](docs/adrs/adr-0007-extended-material-core-alignment.md).
 
 Apache-2.0. See LICENSE, SECURITY.md, and legal/.
 

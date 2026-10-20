@@ -4,6 +4,7 @@ import { ModelRuntime } from "@plasius/gpu-model-runtime";
 import { createCanonicalWavefrontMeshInputs, createWavefrontGpuMaterialSource, createWavefrontMeshAcceleration, normalizeWavefrontMesh } from "@plasius/gpu-renderer";
 import { prepareGpuModelRendererInput } from "../src/index.js";
 import { validDocument, FixtureVerificationPort } from "./fixtures/model-document.js";
+import { EXTENDED_SLOTS, extendedMaterialDocument } from "./fixtures/extended-material.js";
 
 // This fixture tests runtime orchestration and the canonical bridge, not a file parser.
 async function loadFixture(input: Record<string, any>) {
@@ -15,6 +16,51 @@ async function loadFixture(input: Record<string, any>) {
 }
 
 describe("published runtime -> bridge -> published renderer", () => {
+  it("preserves all six extended channels through preparation, normalization and packed atlases", async () => {
+    const input = extendedMaterialDocument();
+    input.nodes[0].children = [];
+    delete input.nodes[0].skinId;
+    input.nodes = [input.nodes[0]];
+    input.skeletons = []; input.joints = []; input.skins = []; input.animations = []; input.blendShapes = [];
+    input.meshes[0].primitives[0].attributes = input.meshes[0].primitives[0].attributes.filter((a: any) => !["JOINTS_0", "WEIGHTS_0"].includes(a.semantic));
+    for (const [slot] of EXTENDED_SLOTS) {
+      input.materials[0].textures[slot].texCoordSet = 0;
+      input.materials[0].textures[slot].transform = { offset: [0, 0], scale: [1, 1], rotationRadians: 0 };
+    }
+    const loaded = await loadFixture(input);
+    const prepared = await prepareGpuModelRendererInput(loaded.canonicalModel, { conversionEnabled: true });
+    const textures = new Map(prepared.textures.map(({ texture }) => [texture.id, { width: 1, height: 1, data: new Uint8Array([32, 64, 128, 255]) }]));
+    const meshes = createCanonicalWavefrontMeshInputs({ document: prepared.document, geometry: prepared.geometry, textures });
+    const packed = createWavefrontGpuMaterialSource(meshes);
+    expect(meshes[0]!.extensions).toMatchObject({
+      KHR_materials_volume: { thicknessTexture: { data: textures.get("texture-thickness")!.data } },
+      KHR_materials_specular: { specularFactor: 0.6, specularTexture: { data: textures.get("texture-specular")!.data }, specularColorTexture: { data: textures.get("texture-specularColor")!.data } },
+      KHR_materials_iridescence: { iridescenceTexture: { data: textures.get("texture-iridescence")!.data }, iridescenceThicknessTexture: { data: textures.get("texture-iridescenceThickness")!.data } },
+      KHR_materials_anisotropy: { anisotropyTexture: { data: textures.get("texture-anisotropy")!.data } },
+    });
+    for (const [slot] of EXTENDED_SLOTS) {
+      expect(packed.extensionAtlases[slot]!.data.some((value: number) => value === 32)).toBe(true);
+    }
+    expect(prepared.materials).toBe(loaded.canonicalModel.materials);
+    expect(prepared.textures.every(({ resource }) => resource === prepared.document.resources[1])).toBe(true);
+    expect(createWavefrontMeshAcceleration(meshes).triangles).toHaveLength(2);
+    await expect(prepareGpuModelRendererInput(loaded.canonicalModel, { conversionEnabled: false })).rejects.toMatchObject({ code: "feature-disabled" });
+  });
+
+  it("retains authored UV and transform data while the renderer explicitly refuses unsupported sampling", async () => {
+    const loaded = await loadFixture(extendedMaterialDocument());
+    const prepared = await prepareGpuModelRendererInput(loaded.canonicalModel, { conversionEnabled: true });
+    const textures = new Map(prepared.textures.map(({ texture }) => [texture.id, { width: 1, height: 1, data: [32, 64, 128, 255] }]));
+    expect(prepared.materials[0]!.textures.thickness!.texCoordSet).toBe(1);
+    expect(prepared.materials[0]!.textures.thickness!.transform!.offset).toEqual([0.25, -0.5]);
+    expect(() => createCanonicalWavefrontMeshInputs({ document: prepared.document, geometry: prepared.geometry, textures })).toThrow("supports only UV set 0");
+    const input = extendedMaterialDocument();
+    for (const [slot] of EXTENDED_SLOTS) input.materials[0].textures[slot].texCoordSet = 0;
+    const transformed = await loadFixture(input);
+    const ready = await prepareGpuModelRendererInput(transformed.canonicalModel, { conversionEnabled: true });
+    expect(() => createCanonicalWavefrontMeshInputs({ document: ready.document, geometry: ready.geometry, textures })).toThrow("require upstream application");
+  });
+
   it("ingests a static, two-material textured fixture into renderer atlas and BVH data", async () => {
     const input = validDocument() as Record<string, any>;
     input.nodes[0].children = [];
