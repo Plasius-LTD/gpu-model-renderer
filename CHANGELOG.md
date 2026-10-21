@@ -13,7 +13,7 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
   - (placeholder)
 
 - **Changed**
-  - (placeholder)
+  - Align renderer preparation with published core 0.6.0, retaining authored node TRS, independent ordered morph-weight bindings and node-weight animation buffers. Producers and the bridge must share the same core instance; animation evaluation remains the host's responsibility.
 
 - **Fixed**
   - (placeholder)

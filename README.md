@@ -61,13 +61,30 @@ objects and structured clones fail closed; verify clones through
 versions/module instances consistent across adapters and bridge consumers.
 The deprecated `packageBootstrap` identity export remains compatible.
 
-This bridge requires the published `@plasius/gpu-model-core` **0.5.0** contract.
+This bridge requires the published `@plasius/gpu-model-core` **0.6.0** contract.
 Source adapters and the bridge must resolve the same core module instance and
 module format. An equal version in a separate install, worker, or ESM/CJS module
 instance does not share the private verification brand. Inspect
 `npm ls @plasius/gpu-model-core` when integrating; explicitly reverify transferred
 clones with the receiving core and its trusted resource-verification port. Do not
 cast a plain object to a verified document or disable the brand check.
+
+`nodes` retains optional authored `restLocalTransform` (including quaternion
+sign and signed scales) and each node's complete ordered `morphWeights`.
+For `node-weights` animation, interpret the output in the target node's binding
+order, which can differ between instances of one mesh. For K keys and N bindings,
+step/linear outputs contain K*N scalar values; cubic-spline outputs contain
+K*3*N scalars, ordered per key as N incoming tangents, N values, N outgoing
+tangents. Signed weights and tangents are preserved. The host owns interpolation,
+deformation and time-dependent bounds; the bridge retains core's validated base
+geometry bounds. Legacy single-shape `weights` channels keep their existing
+meaning. New documents must not be handed to an older core instance.
+
+Published renderer **0.2.53** still accepts the mesh/material projection without
+a dependency upgrade: that projection does not evaluate node morph animation.
+Its test-only core0.5.0 dependency can remain nested because it never performs
+the private document-brand check. Source producers and this bridge, which do
+check the brand, must share core0.6.0. No resolution override is required.
 
 Preparation retains the additional `thickness`, `specular`, `specularColor`,
 `iridescence`, `iridescenceThickness`, and `anisotropy` bindings, including their
@@ -121,7 +138,8 @@ Mutations never affect the canonical document or a subsequent preparation.
   decision as `conversionEnabled` on every preparation. Omission/false rejects.
 - Capability: none for this data-only package layer.
 - Rollback: disable the remote flag, cancel outstanding preparation via its
-  signal, and retain the previous consumer loader and validated package pin.
+  signal, and retain the previous consumer loader and compatible producer/core/
+  bridge package pins together. Do not feed new node-weight documents to core0.5.
   No local environment value is used as the normal control plane.
 
 ## Development and release
@@ -147,13 +165,15 @@ prove the full format conformance matrix in site Story #1160: the current
 published GLB canonical importer supports a narrower texture-free static
 profile. Actual format-adapter support must be verified separately.
 
-Dependencies added for this API: runtime core `0.5.0` (canonical validation and
+Dependencies used by this API: runtime core `0.6.0` (canonical validation and
 diagnostics); test-only runtime `0.2.4` and renderer `0.2.53` (published consumer
 contract checks). No local package references or format SDKs are introduced.
 See [ADR 0006](docs/adrs/adr-0006-canonical-renderer-preparation.md) and the
 [design and NFR evidence](docs/design/canonical-renderer-preparation.md).
 The core adoption and module-instance constraints are specified by
 [ADR 0007](docs/adrs/adr-0007-extended-material-core-alignment.md).
+Node morph animation adoption and its limits are specified by
+[ADR 0008](docs/adrs/adr-0008-node-morph-animation-core-alignment.md).
 
 Apache-2.0. See LICENSE, SECURITY.md, and legal/.
 
