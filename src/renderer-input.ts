@@ -59,7 +59,12 @@ export interface GpuModelRendererSkin {
     readonly weights: Float32Array;
   }[];
 }
-/** Canonical clip semantics with decoded, tightly packed sampler buffers. */
+/**
+ * Canonical clip semantics with decoded, tightly packed sampler buffers.
+ * A node-weights channel uses its target node's morphWeights order. Cubic
+ * output retains per-key incoming tangents, values, then outgoing tangents;
+ * preparation never evaluates, clamps, or normalizes those values.
+ */
 export interface GpuModelRendererAnimation {
   readonly id: string;
   readonly durationSeconds: number;
@@ -81,6 +86,7 @@ export interface GpuModelRendererInput {
   readonly document: GpuModelDocument;
   readonly bounds: GpuModelDocument["bounds"];
   readonly roots: GpuModelDocument["roots"];
+  /** Retains authored rest TRS and independent ordered per-node morph weights. */
   readonly nodes: GpuModelDocument["nodes"];
   readonly materials: GpuModelDocument["materials"];
   readonly skeletons: GpuModelDocument["skeletons"];

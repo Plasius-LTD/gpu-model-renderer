@@ -7,3 +7,4 @@
 - [ADR-0005: Hosted OIDC Package Publication](./adr-0005-hosted-oidc-package-publication.md)
 - [ADR-0006: Canonical Renderer Preparation](./adr-0006-canonical-renderer-preparation.md)
 - [ADR-0007: Extended Material Core Alignment](./adr-0007-extended-material-core-alignment.md)
+- [ADR-0008: Node Morph Animation Core Alignment](./adr-0008-node-morph-animation-core-alignment.md)

@@ -84,3 +84,35 @@ commands, times and release results in #28. No UI, SEO, device rendering or ACA
 configuration changes apply. Remote flag disable and the previous compatible
 package/loader set remain the rollback route. Publish only via approved
 main/production cd.yml after exact-SHA CI and verify registry/provenance.
+
+## Node morph animation adoption (gpu-model-renderer#31)
+
+[ADR 0008](../adrs/adr-0008-node-morph-animation-core-alignment.md) replaces the
+bridge's exact runtime core0.5.0 with released0.6.0. The producer/bridge must share
+that instance and module format. Renderer0.2.53's narrower mesh/material
+projection remains compatible with a separate test-only core0.5.0; no renderer
+upgrade or dependency override applies. Other dependency resolutions are unchanged.
+
+Tests were written before adoption and failed on the old grammar. New fixtures
+verify step/linear/cubic-spline scalar layouts, independent ordered per-node
+bindings on shared geometry, signed weights/tangents/defaults, authored quaternion
+sign and signed scales, exact accessor bytes and mutation isolation. Clone and
+foreign-CJS documents fail closed until explicit receiving-core verification.
+Remote disable/re-enable, cancellation, and exact byte-allocation bounds apply
+to new data just as to existing materials, geometry, skins and legacy animation.
+No evaluation or deformed-bounds computation occurs; host consumers own both.
+
+The NFR table above applies without a new I/O surface. Core0.6 validates the
+extended grammar and all resource bytes; private trust checks remain intact
+(security). No source identifiers enter diagnostics/logs (privacy/observability).
+Existing sequential reads, tightenable30s deadline,64MiB peak-byte ceiling and
+stateless isolated buffers remain (reliability/performance/scalability). Frozen
+install, strict dependency tree/audits, types/lint/build,80%+ coverage with changed
+source in LCOV and packed/registry ESM/CJS/NodeNext probes verify reproducibility
+and testability. Browser source remains standard ES2022/Blob/AbortSignal; no
+physical device/GPU certification is claimed. UI accessibility, SEO and backend
+ACA secretrefs are N/A. Exact commands, SHAs and approved main/production CI/CD
+and npm integrity/provenance evidence are recorded in #31. Rollback must keep a
+compatible producer/core/bridge set together, controlled by the inherited remote
+gpu.model.conversion.enabled flag. No consumer adoption or parent completion is
+inferred until its own tracked criteria are satisfied.
