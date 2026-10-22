@@ -1,6 +1,6 @@
 {
   "name": "@plasius/gpu-model-renderer",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Canonical GPU model to renderer-ready buffers and animation inputs bridge.",
   "type": "module",
   "sideEffects": false,
