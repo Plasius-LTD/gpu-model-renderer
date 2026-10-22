@@ -1,5 +1,13 @@
 # Canonical renderer preparation design and NFR evidence
 
+Task34 adopts exact public core0.7.0 under Feature1151 and
+`gpu.model.conversion.enabled`; see [ADR0009](../adrs/adr-0009-empty-animation-core-alignment.md).
+Empty take id/duration/order survive with zero sampler/channel rows. Names and
+source span/rate/layer evidence remain on the immutable source document, with
+no synthetic motion/resources. Mixed/populated clips use the generic projection.
+Producer and bridge must share a core instance/format; foreign objects require
+receiving-core verification. Existing cancellation/byte/deadline gates apply.
+
 Work definition: gpu-model-renderer#1 under site Feature #1153; architecture:
 site ADR 0094 and package ADR 0006. No new public package is created.
 
