@@ -13,7 +13,7 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
   - (placeholder)
 
 - **Changed**
-  - (placeholder)
+  - Align with exact published core 0.7.0 so verified producers and the bridge share canonical identity, including named empty takes. Preserve existing projection and trust checks; names/timing/layer evidence remain on the document and no motion/resources are invented.
 
 - **Fixed**
   - (placeholder)

@@ -64,6 +64,8 @@ export interface GpuModelRendererSkin {
  * A node-weights channel uses its target node's morphWeights order. Cubic
  * output retains per-key incoming tangents, values, then outgoing tangents;
  * preparation never evaluates, clamps, or normalizes those values.
+ * Empty takes retain id/duration with empty sampler/channel arrays; names and
+ * source timing/layer evidence remain on the original document.
  */
 export interface GpuModelRendererAnimation {
   readonly id: string;

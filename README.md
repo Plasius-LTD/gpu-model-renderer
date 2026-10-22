@@ -1,5 +1,17 @@
 # @plasius/gpu-model-renderer
 
+Use this bridge with exact published `@plasius/gpu-model-core@0.7.0`.
+Producer and bridge must share a core instance and module format; foreign or
+structured-cloned documents require receiving-core verification. Do not force
+overrides to bypass that boundary.
+
+Named empty takes remain in `animations` with id/duration and empty sampler/channel
+arrays. Names, original spans/rates and layer evidence remain on
+`prepared.document.animations`. Zero-duration and mixed empty/populated clips
+are preserved without synthetic motion/resources. Hosts own evaluation,
+deformation and dynamic bounds. Rollback disables remote
+`gpu.model.conversion.enabled` and pins a matched producer/core/bridge set.
+
 Prepare verified canonical GPU models as renderer-ready geometry, material slots,
 texture resources, joint palettes, skin influences, animation tracks and bounds.
 The package follows site ADR 0094. It does not parse file formats, fetch URLs,
@@ -61,7 +73,7 @@ objects and structured clones fail closed; verify clones through
 versions/module instances consistent across adapters and bridge consumers.
 The deprecated `packageBootstrap` identity export remains compatible.
 
-This bridge requires the published `@plasius/gpu-model-core` **0.6.0** contract.
+This bridge requires the published `@plasius/gpu-model-core` **0.7.0** contract.
 Source adapters and the bridge must resolve the same core module instance and
 module format. An equal version in a separate install, worker, or ESM/CJS module
 instance does not share the private verification brand. Inspect
@@ -84,7 +96,7 @@ Published renderer **0.2.53** still accepts the mesh/material projection without
 a dependency upgrade: that projection does not evaluate node morph animation.
 Its test-only core0.5.0 dependency can remain nested because it never performs
 the private document-brand check. Source producers and this bridge, which do
-check the brand, must share core0.6.0. No resolution override is required.
+check the brand, must share core0.7.0. No resolution override is required.
 
 Preparation retains the additional `thickness`, `specular`, `specularColor`,
 `iridescence`, `iridescenceThickness`, and `anisotropy` bindings, including their
@@ -165,7 +177,7 @@ prove the full format conformance matrix in site Story #1160: the current
 published GLB canonical importer supports a narrower texture-free static
 profile. Actual format-adapter support must be verified separately.
 
-Dependencies used by this API: runtime core `0.6.0` (canonical validation and
+Dependencies used by this API: runtime core `0.7.0` (canonical validation and
 diagnostics); test-only runtime `0.2.4` and renderer `0.2.53` (published consumer
 contract checks). No local package references or format SDKs are introduced.
 See [ADR 0006](docs/adrs/adr-0006-canonical-renderer-preparation.md) and the
